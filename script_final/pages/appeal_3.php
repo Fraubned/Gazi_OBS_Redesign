@@ -33,9 +33,9 @@
             Genel İşlemler
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Genel Bilgiler</a>
-            <a class="dropdown-item" href="#">Alınan Dersler</a>
-            <a class="dropdown-item" href="#">Ders Programı</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/main.php">Genel Bilgiler</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/main.php">Alınan Dersler</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/main.php">Ders Programı</a>
 
           </div>
         </li>
@@ -44,8 +44,8 @@
             Ders ve Dönem İşlemleri
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Ders Kayıt</a>
-            <a class="dropdown-item" href="#">Not ve Devamsızlık Durumu</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/enroll_lesson.php">Ders Kayıt</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/notes.php">Not ve Devamsızlık Durumu</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -53,9 +53,9 @@
             Hazırlık
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Sınav Takvimi</a>
-            <a class="dropdown-item" href="#">Not Listesi</a>
-            <a class="dropdown-item" href="#">Ders Programı</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/hazirlik_1.php">Sınav Takvimi</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/hazirlik_2.php">Not Listesi</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/hazirlik_3.php">Ders Programı</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -63,24 +63,31 @@
             Başvuru
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Kayıt Dondurma</a>
-            <a class="dropdown-item" href="#">Mazaret Sınavı</a>
-            <a class="dropdown-item" href="#">Ek Sınav</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/appeal_1.php">Kayıt Dondurma</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/appeal_2.php">Mazaret Sınavı</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/appeal_3.php">Ek Sınav</a>
           </div>
         </li>
       </ul>
     </div>
     <div class="collapse navbar-collapse" id="navbar-list-4">
       <ul class="navbar-nav" id="right-side">
-        <li id="student" class="nav-item">Öğrenci Adı-Soyadı</li>
-        <li id="student" class="nav-item">Öğrenci NO</li>
+        <li id="student" class="nav-item"><?php
+                                          require_once "config.php";
+                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $result = pg_query($dbconn, $query);
+                                          while ($row = pg_fetch_array($result)) {
+
+                                            echo "" . $row["first_name"] . " " . $row["last_name"] . "  -  " .$row["student_id"]. "<br>";
+                                          }
+                                          ?></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+            <img  width="40" height="40" class="rounded-circle">
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Şifre Değişikliği</a>
-            <a class="dropdown-item" href="#">Çıkış</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/change_pass.php">Şifre Değişikliği</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/sign_in.php">Çıkış</a>
           </div>
         </li>
       </ul>

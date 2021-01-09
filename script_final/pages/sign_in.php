@@ -11,6 +11,33 @@
 </style>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
+<?php
+$host = "localhost";
+$port = "5432";
+$dbname = "script";
+$user = "postgres";
+$dbpassword = "123"; 
+$connection_string = "host={$host} port={$port} dbname={$dbname} user={$user} password={$dbpassword} ";
+$dbconn = pg_connect($connection_string);
+
+if(isset($_POST['submit'])&&!empty($_POST['submit'])){
+    
+	$username = pg_escape_string($_POST['id']);
+    $hashpassword = md5($_POST['pwd']);
+	$sql =" SELECT * FROM student WHERE student_id = '".$username."' AND password = '".$hashpassword."'";
+    $data = pg_query($dbconn,$sql); 
+    $login_check = pg_num_rows($data);
+    if($login_check =! 1){    
+		header("location: http://localhost/script_final/pages/deneme.php");
+		exit();
+    }else{
+		header("location: http://localhost/script_final/pages/main.php");
+		exit();
+    }
+}
+
+?>
+
 <head>
 	<title>Gazi Üniversitesi</title>
 </head>
@@ -20,12 +47,12 @@
 			<div class="middle">
 				<div id="login">
 
-					<form action="javascript:void(0);" method="get">
+					<form method="post" action="">
 
 						<fieldset class="clearfix">
 
-							<p><span class="fa fa-user"></span><input type="text" Placeholder="Öğrenci No" required></p>
-							<p><span class="fa fa-lock"></span><input type="password" Placeholder="Şifre" required></p>
+							<p><span class="fa fa-user"></span><input type="text" name="id" id="id" Placeholder="Öğrenci No" required></p>
+							<p><span class="fa fa-lock"></span><input type="password" name="pwd" id="pwd" Placeholder="Şifre" required></p>
 
 							<div>
 								<span style="width:48%; text-align:left;  display: inline-block;"><a class="small-text" href="#">Şifremi Unuttum</a></span>

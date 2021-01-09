@@ -27,9 +27,9 @@
             Genel İşlemler
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Genel Bilgiler</a>
-            <a class="dropdown-item" href="#">Alınan Dersler</a>
-            <a class="dropdown-item" href="#">Ders Programı</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/main.php">Genel Bilgiler</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/main.php">Alınan Dersler</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/main.php">Ders Programı</a>
 
           </div>
         </li>
@@ -38,8 +38,8 @@
             Ders ve Dönem İşlemleri
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Ders Kayıt</a>
-            <a class="dropdown-item" href="#">Not ve Devamsızlık Durumu</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/enroll_lesson.php">Ders Kayıt</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/notes.php">Not ve Devamsızlık Durumu</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -47,9 +47,9 @@
             Hazırlık
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Sınav Takvimi</a>
-            <a class="dropdown-item" href="#">Not Listesi</a>
-            <a class="dropdown-item" href="#">Ders Programı</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/hazirlik_1.php">Sınav Takvimi</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/hazirlik_2.php">Not Listesi</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/hazirlik_3.php">Ders Programı</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -57,24 +57,31 @@
             Başvuru
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Kayıt Dondurma</a>
-            <a class="dropdown-item" href="#">Mazaret Sınavı</a>
-            <a class="dropdown-item" href="#">Ek Sınav</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/appeal_1.php">Kayıt Dondurma</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/appeal_2.php">Mazaret Sınavı</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/appeal_3.php">Ek Sınav</a>
           </div>
         </li>
       </ul>
     </div>
     <div class="collapse navbar-collapse" id="navbar-list-4">
       <ul class="navbar-nav" id="right-side">
-        <li id="student" class="nav-item">Öğrenci Adı-Soyadı</li>
-        <li id="student" class="nav-item">Öğrenci NO</li>
+        <li id="student" class="nav-item"><?php
+                                          require_once "config.php";
+                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $result = pg_query($dbconn, $query);
+                                          while ($row = pg_fetch_array($result)) {
+
+                                            echo "" . $row["first_name"] . " " . $row["last_name"] . "  -  " .$row["student_id"]. "<br>";
+                                          }
+                                          ?></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+            <img  width="40" height="40" class="rounded-circle">
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">Şifre Değişikliği</a>
-            <a class="dropdown-item" href="#">Çıkış</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/change_pass.php">Şifre Değişikliği</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/sign_in.php">Çıkış</a>
           </div>
         </li>
       </ul>
@@ -85,13 +92,75 @@
   <!--Genel Bilgiler Başlangıcı -->
   <div class="content-1">
     <div id="agnoo" class="col3">
-      <div class="agno">AGNO</div>
+      <div class="agno">AGNO
+      <div id="agno_print">
+      <?php
+                                          require_once "config.php";
+                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $result = pg_query($dbconn, $query);
+                                          while ($row = pg_fetch_array($result)) {
+
+                                            echo "" . $row["agno"] . "/4", "<br>";
+                                          }
+                                          ?>
+      </div>
+      </div>
     </div>
     <div id="general" class="col3">
-      <div class="general-information">Genel bilgiler</div>
+      <div class="general-information">
+        <div class="general_print">Genel Bilgiler</div>
+        <div class="genel_print1"><?php
+                                          require_once "config.php";
+                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $result = pg_query($dbconn, $query);
+                                          while ($row = pg_fetch_array($result)) {
+                                            echo "Ad-Soyad: " . $row["first_name"] . "   " . $row["last_name"] .  "<br>";
+                                          }
+                                          ?>
+        </div>
+        <div class="genel_print1"><?php
+                                          require_once "config.php";
+                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $result = pg_query($dbconn, $query);
+                                          while ($row = pg_fetch_array($result)) {
+                                            echo "Doğum Tarihi: " . $row["birth_day"] . "<br>";
+                                          }
+                                          ?>
+        </div>
+        <div class="genel_print2"><?php
+                                          require_once "config.php";
+                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $result = pg_query($dbconn, $query);
+                                          while ($row = pg_fetch_array($result)) {
+                                          echo "Kayıt Tarihi: " . $row["enrollment_day"] ."<br>";
+                                          }
+                                          ?>
+        </div>
+        <div class="genel_print2"><?php
+                                          require_once "config.php";
+                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $result = pg_query($dbconn, $query);
+                                          while ($row = pg_fetch_array($result)) {
+                                            echo "Danışman Akademisyen: " . $row["advisor_instructor"] ."<br>";
+                                          }
+                                          ?>
+        </div>
+      </div>
     </div>
     <div id="donemm" class="col3">
-      <div class="donem">Dönem</div>
+      <div class="donem">Dönem
+      <div id="donem_print"> 
+      <?php
+                                          require_once "config.php";
+                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $result = pg_query($dbconn, $query);
+                                          while ($row = pg_fetch_array($result)) {
+
+                                            echo "" . $row["term"] ."<br>";
+                                          }
+                                          ?>
+      </div>
+      </div>
     </div>
   </div>
 
@@ -162,17 +231,19 @@
               </tr>
               <tr>
                 <td class="headcol">7:00</td>
+                <td><div class="event"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>CENG307</div></td>
                 <td></td>
+                <td>
+                <div class="event"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>CENG307</div>
+                </td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><div class="event"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>CENG307</div></td>
                 <td></td>
                 <td></td>
               </tr>
               <tr>
                 <td class="headcol"></td>
-                <td></td>
+                <td><div class="event"><input id="check" type="checkbox" class="checkbox" /><label for="check"></label>CENG307</div></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -432,36 +503,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Mahmut Tuncer</td>
-                <td>LO302</td>
-                <td>-</td>
-                <td>İlk Defa Alıyor</td>
-              </tr>
-              <tr>
-                <td>İbrahim Tatlıses</td>
-                <td>PEZ101</td>
-                <td>DD</td>
-                <td>Yükseltmeye Alıyor</td>
-              </tr>
-              <tr>
-                <td>Müslüm Gürses</td>
-                <td>DERT202</td>
-                <td>FF</td>
-                <td>Tekrara Alıyor</td>
-              </tr>
-              <tr>
-                <td>Bayhan Bilinmiyor</td>
-                <td>VURDUMDUYMAZ101</td>
-                <td>-</td>
-                <td>İlk Defa Alıyor</td>
-              </tr>
-              <tr>
-                <td>Seda Tripkolic</td>
-                <td>GOZYESILI402</td>
-                <td>-</td>
-                <td>İlk Defa Alıyor</td>
-              </tr>
+              <?php
+              require_once "config2.php";
+              $student_id = 171180039;
+              $query = "SELECT * FROM lessons WHERE student_id='" . $student_id . "'";
+              $result = pg_query($dbconn, $query);
+              while ($row = pg_fetch_array($result)) {
+                echo "<tr>";
+                echo "<td>" . $row["instructor"] . "</td>";
+                echo "<td>" . $row["course_code"] . "</td>";
+                echo "<td>" . $row["course_grade"] . "</td>";
+                echo "<td>" . $row["status"] . "</td>";
+                echo "</tr>";
+              }
+              pg_close($dbconn);
+              ?>
             </tbody>
           </table>
         </div>
