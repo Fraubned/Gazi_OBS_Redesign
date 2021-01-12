@@ -1,6 +1,17 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<?php
+ 
+session_start();
+ 
+if (!isset($_SESSION['student_id'])) {
+  header('location: sign_in.php');
+}
+
+if (isset($_GET['logout'])) {
+  session_destroy();
+  unset($_SESSION['username']);
+  header("location: sign_in.php");
+}
+?>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -10,15 +21,17 @@
 <!DOCTYPE html>
 <html>
 <style>
-  <?php include "/xampp/htdocs/script_final/css/pass.css" ?>
+  <?php include "/xampp/htdocs/script_final/css/enroll_lesson.css" ?>
 </style>
-
 <style>
   <?php include "/xampp/htdocs/script_final/css/main.css" ?>
 </style>
-
+<style>
+  <?php include "/xampp/htdocs/script_final/css/hazirlik.css" ?>
+</style>
 <head>
   <title>Gazi Ünivesitesi</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
@@ -75,46 +88,79 @@
       <ul class="navbar-nav" id="right-side">
         <li id="student" class="nav-item"><?php
                                           require_once "config.php";
-                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $s_iddd = $_SESSION['student_id'];
+                                          $query = " SELECT * FROM student WHERE student_id = '" . $s_iddd . "'";
                                           $result = pg_query($dbconn, $query);
                                           while ($row = pg_fetch_array($result)) {
 
-                                            echo "" . $row["first_name"] . " " . $row["last_name"] . "  -  " .$row["student_id"]. "<br>";
+                                            echo "" . $row["first_name"] . " " . $row["last_name"] . "  -  " . $row["student_id"] . "<br>";
                                           }
                                           ?></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img  width="40" height="40" class="rounded-circle">
+            <i class="fa fa-user"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="http://localhost/script_final/pages/change_pass.php">Şifre Değişikliği</a>
-            <a class="dropdown-item" href="http://localhost/script_final/pages/sign_in.php">Çıkış</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/logout.php">Çıkış</a>
           </div>
         </li>
       </ul>
     </div>
   </nav>
   <!--Nav-Bar Bitiş-->
-  <section id="password" class="mb-5 text-center">
+  <div class=container>
+<form method="post" action=>
 
-<p>Set a new password</p>
-
-<form action="post">
-
-  <div class="md-form md-outline">
-    <input type="password" id="newPass" class="form-control">
-    <label data-error="wrong" data-success="right" for="newPass">New password</label>
+  <div>
+  <p><input type="password" name="c_pass" Placeholder=" Geçerli Olan Şifreniz" required></p>
   </div>
 
-  <div class="md-form md-outline">
-    <input type="password" id="newPassConfirm" class="form-control">
-    <label data-error="wrong" data-success="right" for="newPassConfirm">Confirm password</label>
+  <div>
+  <p><input type="password" name="n_pass"  Placeholder=" Yeni Şifreniz" required></p>
   </div>
 
-  <button type="submit" class="btn btn-primary mb-4">Change password</button>
+  <div >
+  <p><input type="password" name="c_n_pass" Placeholder=" Yeni Şifrenizi Tekrar Ediniz" required></p>
+  </div>
+
+  <button type="submit" class="btn btn-primary mb-4">Şifreyi değiştir</button>
 
 </form>
+</div>
+
 
 </section>
 
 </body>
+
+<?php
+
+
+$c_p=$_POST['c_pass'];
+$n_p=$_POST['n_pass'];
+$cn_p=$_POST['c_n_pass'];
+
+include('config.php');
+
+$query="UPDATE student SET password='".$n_p."'WHERE PASSWORD='".$c_p."'";
+$sql =" SELECT * FROM student WHERE password = '".$c_p."'";
+$results1=pg_query($dbconn,$sql) ;
+$row=pg_fetch_array($results1);
+
+if( $row['password']==$c_p):
+  if( $n_p == $cn_p):
+     $n_p=md5($n_p);
+     $results2=pg_query($dbconn,$query) ;
+     if($result2):
+      echo "Şifre değiştirildi.";
+     endif; 
+  elseif($n_p != $cn_p):   
+     echo"şifreler aynı değil";
+  endif;
+
+elseif( $row['password']!=$c_p):
+  echo"Geçerli şifrenizi yanlış girdiniz.";
+
+endif;
+?>

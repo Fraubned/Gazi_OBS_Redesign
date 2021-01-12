@@ -10,6 +10,6 @@ $dbconn = pg_connect($connection_string);
  
 // Check connection
 if($dbconn === false){
-    die("ERROR: Could not connect. " . pg_last_error());
+    die("HATA: Bağlantı Başarısız. " . pg_last_error());
 }
 ?>

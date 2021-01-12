@@ -1,3 +1,17 @@
+<?php
+ 
+session_start();
+ 
+if (!isset($_SESSION['student_id'])) {
+  header('location: sign_in.php');
+}
+
+if (isset($_GET['logout'])) {
+  session_destroy();
+  unset($_SESSION['username']);
+  header("location: sign_in.php");
+}
+?>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -74,26 +88,28 @@
       <ul class="navbar-nav" id="right-side">
         <li id="student" class="nav-item"><?php
                                           require_once "config.php";
-                                          $query = "SELECT * FROM student WHERE student_id='" . '171180039' . "'";
+                                          $s_iddd = $_SESSION['student_id'];
+                                          $query = " SELECT * FROM student WHERE student_id = '" . $s_iddd . "'";
                                           $result = pg_query($dbconn, $query);
                                           while ($row = pg_fetch_array($result)) {
 
-                                            echo "" . $row["first_name"] . " " . $row["last_name"] . "  -  " .$row["student_id"]. "<br>";
+                                            echo "" . $row["first_name"] . " " . $row["last_name"] . "  -  " . $row["student_id"] . "<br>";
                                           }
                                           ?></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img  width="40" height="40" class="rounded-circle">
+            <i class="fa fa-user"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="http://localhost/script_final/pages/change_pass.php">Şifre Değişikliği</a>
-            <a class="dropdown-item" href="http://localhost/script_final/pages/sign_in.php">Çıkış</a>
+            <a class="dropdown-item" href="http://localhost/script_final/pages/logout.php">Çıkış</a>
           </div>
         </li>
       </ul>
     </div>
   </nav>
   <!--Nav-Bar Bitiş-->
+
 
   <div class="hazirlik_content">
       <div class="hc">

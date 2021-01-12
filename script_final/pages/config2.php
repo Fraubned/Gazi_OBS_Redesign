@@ -9,6 +9,6 @@ $connection_string = "host={$host} port={$port} dbname={$dbname} user={$user} pa
 $dbconn = pg_connect($connection_string);
 
 if($dbconn === false){
-    die("ERROR: Could not connect. " . pg_last_error());
+    die("HATA: Bağlantı Başarısız. " . pg_last_error());
 }
 ?>

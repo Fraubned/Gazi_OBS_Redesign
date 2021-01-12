@@ -2,6 +2,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -11,32 +12,7 @@
 </style>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-<?php
-$host = "localhost";
-$port = "5432";
-$dbname = "script";
-$user = "postgres";
-$dbpassword = "123"; 
-$connection_string = "host={$host} port={$port} dbname={$dbname} user={$user} password={$dbpassword} ";
-$dbconn = pg_connect($connection_string);
 
-if(isset($_POST['submit'])&&!empty($_POST['submit'])){
-    
-	$username = pg_escape_string($_POST['id']);
-    $hashpassword = md5($_POST['pwd']);
-	$sql =" SELECT * FROM student WHERE student_id = '".$username."' AND password = '".$hashpassword."'";
-    $data = pg_query($dbconn,$sql); 
-    $login_check = pg_num_rows($data);
-    if($login_check =! 1){    
-		header("location: http://localhost/script_final/pages/deneme.php");
-		exit();
-    }else{
-		header("location: http://localhost/script_final/pages/main.php");
-		exit();
-    }
-}
-
-?>
 
 <head>
 	<title>Gazi Üniversitesi</title>
@@ -47,7 +23,7 @@ if(isset($_POST['submit'])&&!empty($_POST['submit'])){
 			<div class="middle">
 				<div id="login">
 
-					<form method="post" action="">
+					<form method="POST" action=>
 
 						<fieldset class="clearfix">
 
@@ -64,10 +40,9 @@ if(isset($_POST['submit'])&&!empty($_POST['submit'])){
 					</form>
 				</div>
 				<div class="logo">
-					<?php
-					$log = "/images/logo.jpg";
-					echo "<img src='$log' width='100' height='100'/>";
-					?>
+					
+					<img src='logoo.png' width='175' height='175'/>
+					
 				</div>
 
 			</div>
@@ -75,3 +50,31 @@ if(isset($_POST['submit'])&&!empty($_POST['submit'])){
 	</div>
 
 </div>
+<?php
+session_start();
+$s_id=$_POST['id'];
+$pass=$_POST['pwd'];
+
+include('config.php');
+
+$sql =" SELECT * FROM student WHERE student_id = '".$s_id."' AND password = '".$pass."'";
+
+$results=pg_query($dbconn,$sql) ;
+
+$row=pg_fetch_array($results);
+
+if(empty($s_id)== false && empty($pass)== false ):
+	if ($row['student_id']==$s_id && $row['password']==$pass):
+
+		header('location:main.php');
+		$_SESSION['student_id'] = $s_id;
+		
+	
+	else:
+
+  		echo "<script>alert('HATALI GİRİŞ!!! Öğrenci numaranızı ve şifrenizi kontrol ediniz... '); </script>";
+    
+	endif;
+endif;
+
+?>
